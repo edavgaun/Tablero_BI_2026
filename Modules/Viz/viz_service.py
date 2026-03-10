@@ -66,7 +66,7 @@ class EcobiciViz:
                     colors=["#2ecc71", "#e74c3c", "#3498db", "#95a5a6"],
                     icons='bicycle',
                     font_size=font_waffle,
-                    figsize=(7, 10),
+                    figsize=(7, 14),
                     legend={
                         'labels': ['Disponible', 'Dañada', 'Libre', 'Dañado'],
                         'loc': 'upper center',         # Cambiamos a upper center
