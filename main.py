@@ -6,17 +6,25 @@ st.set_page_config(layout="wide", page_title="Ecobici Dashboard UP")
 # Inyección de CSS corregida y segura
 st.markdown("""
     <style>
-        /* Margen de cortesía en los bordes de la app */
+        /* Reducir el espacio superior sin ocultar los botones de control */
         .block-container {
-            padding-top: 2rem !important;
-            padding-bottom: 1rem !important;
+            padding-top: 1rem !important;
+            padding-bottom: 0rem !important;
             padding-left: 3rem !important;
             padding-right: 3rem !important;
         }
-        /* Ocultar elementos innecesarios */
-        header {visibility: hidden;}
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
+        
+        /* En lugar de ocultar el header completo, solo quitamos el fondo */
+        header {
+            background-color: rgba(0,0,0,0) !important;
+        }
+
+        /* Forzar que el botón del Sidebar sea visible (flecha >) */
+        .css-6q9sum.edgvb6w4 {
+            visibility: visible !important;
+            background-color: white !important;
+            border-radius: 50%;
+        }
     </style>
     """, unsafe_allow_html=True)
 
