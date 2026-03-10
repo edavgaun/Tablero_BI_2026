@@ -5,5 +5,5 @@ from Modules.Data.ecobici_service import EcobiciService
 # Sección para crear la GUI
 show_header("Mi primera GUI en Streamlit")
 
-ecobici = EcobiciService(
+ecobici = EcobiciService()
 st.write(ecobici)
