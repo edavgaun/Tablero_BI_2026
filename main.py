@@ -1,23 +1,37 @@
 import streamlit as st
 
-# Configuración de página para usar todo el ancho
-st.set_page_config(layout="wide")
+# DEBE SER LA PRIMERA LÍNEA DESPUÉS DE LOS IMPORTS
+st.set_page_config(layout="wide", page_title="Ecobici Dashboard")
 
-# CSS para eliminar espacios en blanco
+# Inyectamos el CSS para eliminar los márgenes superiores y laterales
 st.markdown("""
     <style>
-        # Eliminar el espacio superior (Header)
+        /* Eliminar espacio superior */
         .block-container {
-            padding-top: 0rem;
-            padding-bottom: 0rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding-top: 0rem !important;
+            padding-bottom: 0rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
         }
-        # Eliminar el espacio en blanco arriba del título
+        /* Eliminar barra de menú superior */
         header {visibility: hidden;}
-        # Reducir el espacio entre widgets de la barra lateral
-        .css-1d391kg {padding-top: 1rem;}
+        /* Ajustar el canvas del gráfico para que pegue a la derecha */
+        .stPlotlyChart {
+            margin-bottom: -2rem;
+        }
     </style>
     """, unsafe_allow_html=True)
 
-# ... resto de tus imports y lógica
+from Modules.UI.header import show_header
+from Modules.Data.ecobici_service import EcobiciService
+from Modules.Viz.viz_service import EcobiciViz
+
+# Tu lógica actual
+show_header("Mi primera GUI en Streamlit")
+
+ecobici = EcobiciService()
+df = ecobici.get_full_data()
+
+if not df.empty:
+    viz = EcobiciViz()
+    viz.render_map_and_waffle(df)
