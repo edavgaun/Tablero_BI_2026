@@ -1,36 +1,22 @@
 import streamlit as st
 
-# 1. Configuración obligatoria al inicio
+# Configuración inicial
 st.set_page_config(layout="wide", page_title="Ecobici Dashboard UP")
 
-# 2. Inyección de CSS para eliminar espacios
+# CSS con margen pequeño y elegante
 st.markdown("""
     <style>
-        /* Eliminar espacio superior y márgenes laterales del contenedor principal */
         .block-container {
-            padding-top: 0rem !important;
-            padding-bottom: 0rem !important;
-            padding-left: 0rem !important;
-            padding-right: 0rem !important;
+            padding-top: 1.5rem !important;    /* Espacio arriba del encabezado */
+            padding-bottom: 1rem !important;
+            padding-left: 2rem !important;     /* Margen izquierdo sutil */
+            padding-right: 2rem !important;    /* Margen derecho sutil */
         }
-        /* Ocultar el header de Streamlit para ganar espacio arriba */
-        header {visibility: hidden;}
-        /* Eliminar espacio superior de los widgets */
-        .stVerticalBlock {gap: 0rem;}
+        header {visibility: hidden;}           /* Mantenemos limpio el techo */
+        
+        /* Ajuste para que los widgets no estén pegados al borde del sidebar */
+        .css-1d391kg { padding: 1.5rem 1rem; }
     </style>
     """, unsafe_allow_html=True)
 
-from Modules.UI.header import show_header
-from Modules.Data.ecobici_service import EcobiciService
-from Modules.Viz.viz_service import EcobiciViz
-
-# Título
-show_header("Dashboard de BI - Universidad Panamericana")
-
-# Lógica de datos
-ecobici = EcobiciService()
-df = ecobici.get_full_data()
-
-if not df.empty:
-    viz = EcobiciViz()
-    viz.render_map_and_waffle(df)
+# ... resto de tus imports (Header, Service, Viz)
