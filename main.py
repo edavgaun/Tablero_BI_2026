@@ -6,4 +6,7 @@ from Modules.Data.ecobici_service import EcobiciService
 show_header("Mi primera GUI en Streamlit")
 
 ecobici = EcobiciService()
-st.write(ecobici)
+# Cargar datos
+df = ecobici.get_full_data()
+
+st.write(df)
