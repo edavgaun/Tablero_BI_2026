@@ -1,17 +1,14 @@
-# Sección de importación de módulos
 from Modules.UI.header import show_header
 from Modules.Data.ecobici_service import EcobiciService
 from Modules.Viz.viz_service import EcobiciViz
 import streamlit as st
-import pandas as pd
 
-# Sección para crear la GUI
-show_header("Mi primera GUI en Streamlit")
+show_header("Dashboard Ecobici UP Mixcoac")
 
 ecobici = EcobiciService()
-# Cargar datos
 df = ecobici.get_full_data()
 
-# Visualización con Plotly
-viz = EcobiciViz()
-viz.render_map(df)
+if not df.empty:
+    viz = EcobiciViz()
+    # Llamamos a la nueva función que organiza ambos gráficos
+    viz.render_map_and_waffle(df)
