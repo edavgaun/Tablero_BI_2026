@@ -21,15 +21,15 @@ class EcobiciViz:
             fila = df[df['name'] == seleccion].iloc[0]
             valores_waffle = fila[columnas_status].values.astype(int)
             lat_center, lon_center = fila['lat'], fila['lon']
-            # Para una sola estación, pocas filas obligan a que los iconos sean enormes
-            n_rows = 3  
+            n_rows = 6  # Aumentamos filas para que sea más vertical
+            font_waffle = 30
             escala_txt = "1 icono = 1 unidad"
         else:
             factor = 100
             valores_waffle = (df[columnas_status].sum().values / factor).astype(int)
             lat_center, lon_center = df['lat'].mean(), df['lon'].mean()
-            # En la vista global, aumentamos filas para que el rectángulo sea alto
-            n_rows = 18 
+            n_rows = 15 
+            font_waffle = 25
             escala_txt = f"1 icono ≈ {factor} unidades"
 
         # --- DISEÑO DE COLUMNAS ---
@@ -56,34 +56,28 @@ class EcobiciViz:
             st.plotly_chart(fig_map, use_container_width=True)
 
         with col_waffle:
-            st.markdown(f"### {seleccion if seleccion != 'Todas' else 'Total Ciudad'}")
+            st.markdown(f"#### {seleccion if seleccion != 'Todas' else 'Total Ciudad'}")
             
             if sum(valores_waffle) > 0:
-                # El secreto para que no se vea diminuto es un font_size alto
-                # y un figsize que coincida con la proporción de la columna
                 fig = plt.figure(
                     FigureClass=Waffle,
                     rows=n_rows,
                     values=valores_waffle,
                     colors=["#2ecc71", "#e74c3c", "#3498db", "#95a5a6"],
                     icons='bicycle',
-                    font_size=35,       
-                    figsize=(8, 14),    # Proporción muy alta para llenar el vacío
-                    icon_legend=True,
+                    font_size=font_waffle,
+                    figsize=(7, 10),
                     legend={
                         'labels': ['Disponible', 'Dañada', 'Libre', 'Dañado'],
-                        'loc': 'lower center', 
-                        'bbox_to_anchor': (0.5, -0.05), 
+                        'loc': 'upper center',         # Cambiamos a upper center
+                        'bbox_to_anchor': (0.5, -0.05), # Lo alejamos un poco del gráfico
                         'ncol': 2,
-                        'fontsize': 12,
+                        'fontsize': 14,                # Leyenda más grande
                         'frameon': False
                     }
                 )
-                
-                # Eliminamos todos los márgenes de Matplotlib
-                plt.tight_layout(pad=0)
-                
-                # st.pyplot hará que la imagen se estire al ancho de la columna
+                # Ajuste manual para que la leyenda no se corte y no se encime
+                plt.subplots_adjust(bottom=0.2) 
                 st.pyplot(fig, use_container_width=True)
                 st.caption(f"**Escala:** {escala_txt}")
             else:
